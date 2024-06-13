@@ -6,7 +6,6 @@ import org.admin.repository.TextReportDao;
 import org.admin.service.TextReportService;
 import org.springframework.stereotype.Service;
 import org.admin.util.Translator;
-
 import java.util.List;
 
 @Service
@@ -24,20 +23,15 @@ public class DefaultTextReportService implements TextReportService {
     }
 
     @Override
-    public Report getBy(String type, int no, int memberNo) {
+    public Report getBy(String type, long no, long memberNo) {
 
         Report report = textReportDao.findBy(type,no,memberNo);
         report.setStateStr(Translator.dealState.get(report.getState()));
-        if (report == null) {
-            System.out.println("nullllllll");
-        } else {
-            System.out.println("abcdef: " + report);
-        }
         return report;
     }
 
     @Override
-    public int updateState(int reportNo) {
+    public int updateState(long reportNo) {
         return textReportDao.updateState(reportNo);
     }
 

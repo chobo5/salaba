@@ -42,8 +42,6 @@ public class JwtTokenizerTest {
                 .signWith(Keys.hmacShaKeyFor(accessSecret))
                 .compact();
 
-        System.out.println("JwtToken: " + JwtToken);
-
     }
 
     @Test
@@ -56,12 +54,6 @@ public class JwtTokenizerTest {
                 .build()
                 .parseClaimsJws(jwtToken)
                 .getBody();
-        System.out.println("xxxxxxxx");
-        System.out.println(claims.getSubject());
-        System.out.println(claims.get("roles"));
-        System.out.println(claims.get("userId"));
-        System.out.println(claims.getIssuedAt());
-        System.out.println(claims.getExpiration());
 
     }
 

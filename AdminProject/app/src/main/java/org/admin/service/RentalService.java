@@ -12,9 +12,9 @@ public interface RentalService {
     //등록 신청한 숙소 목록
     List<Rental> getAppliedRentals();
 
-    Rental getBy(int rentalNo);
+    Rental getBy(long rentalNo);
 
-    int updateState(int rentalNo, String rentalState);
+    int updateState(long rentalNo, String rentalState);
 
     List<Rental> getAllByName(String keyword);
     List<Rental> getAllByHostName(String keyword);

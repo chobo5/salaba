@@ -18,8 +18,8 @@ public class DefaultQnaService implements QnaService {
 
 
     @Override
-    public List<Qna> getAllQ() {
-        List<Qna> qnas = qnaDao.findAllQ();
+    public List<Qna> getAllQna() {
+        List<Qna> qnas = qnaDao.findAllQna();
         for (Qna qna : qnas) {
             qna.setStateStr(Translator.dealState.get(qna.getState()));
         }
@@ -27,7 +27,7 @@ public class DefaultQnaService implements QnaService {
     }
 
     @Override
-    public Qna getBy(int questionNo) {
+    public Qna getBy(long questionNo) {
         Qna qna = qnaDao.findBy(questionNo);
         qna.setStateStr(Translator.dealState.get(qna.getState()));
         return qna;

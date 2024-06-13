@@ -7,8 +7,8 @@ import java.util.List;
 
 @Data
 public class Qna {
-    private int questionNo;
-    private int memberNo;
+    private long questionNo;
+    private long memberNo;
     private String title;
     private String content;
     private String state;

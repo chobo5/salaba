@@ -13,8 +13,8 @@ public interface MemberService {
 
     Member getHostBy(long memberNo);
 
-    int updateWarningCountBy(int reportNo);
-    int updateWarningCount(int writerNo);
+    int updateWarningCountBy(long reportNo);
+    int updateWarningCount(long writerNo);
 
     List<Member> getMemberByName(String keyword);
     List<Member> getMemberByEmail(String keyword);

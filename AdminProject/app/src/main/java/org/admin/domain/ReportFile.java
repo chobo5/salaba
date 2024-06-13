@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Data
 public class ReportFile {
-    private int reportNo;
+    private long reportNo;
     private String originalName;
     private String uuidName;
 }

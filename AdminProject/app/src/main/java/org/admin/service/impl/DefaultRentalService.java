@@ -34,14 +34,14 @@ public class DefaultRentalService implements RentalService {
     }
 
     @Override
-    public Rental getBy(int rentalNo) {
+    public Rental getBy(long rentalNo) {
         Rental rental = rentalDao.findBy(rentalNo);
         rental.setStateStr(Translator.rentalState.get(rental.getState()));
         return rental;
     }
 
     @Override
-    public int updateState(int rentalNo, String rentalState) {
+    public int updateState(long rentalNo, String rentalState) {
         return rentalDao.updateState(rentalNo, rentalState);
     }
 

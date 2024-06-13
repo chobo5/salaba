@@ -1,12 +1,13 @@
 package org.admin.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.admin.service.ChartService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController //@Controller + @ResponseBody
 @RequiredArgsConstructor
 @RequestMapping("/chart")
 public class ChartController {

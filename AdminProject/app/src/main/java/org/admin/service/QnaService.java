@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface QnaService {
-    List<Qna> getAllQ();
-    Qna getBy(int qnaNo);
+    List<Qna> getAllQna();
+    Qna getBy(long qnaNo);
 
     void addAnswer(Qna qna);
 

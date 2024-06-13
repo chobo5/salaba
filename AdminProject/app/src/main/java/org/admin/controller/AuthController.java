@@ -1,6 +1,7 @@
 package org.admin.controller;
 
 import io.jsonwebtoken.Claims;
+import lombok.extern.slf4j.Slf4j;
 import org.admin.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.admin.domain.RefreshToken;
@@ -11,6 +12,7 @@ import org.admin.service.MemberService;
 import org.admin.service.RefreshTokenService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,17 +28,15 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
+@Slf4j
 public class AuthController {
-    private static final Log log = LogFactory.getLog(AuthController.class);
     private final MemberService memberService;
     private final JwtTokenizer jwtTokenizer;
     private final RefreshTokenService refreshTokenService;
     private final PasswordEncoder passwordEncoder;
-
-
     @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody @Valid MemberSignupDto memberSignupDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) { //값 검증 오류객체가 있다면
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -64,7 +64,6 @@ public class AuthController {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        System.out.println(loginDto.getEmail());
         // email이 없을 경우 Exception이 발생한다. Global Exception에 대한 처리가 필요하다.
         Member member = memberService.getByEmail(loginDto.getEmail());
 

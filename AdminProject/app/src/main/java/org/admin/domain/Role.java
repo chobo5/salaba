@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role {
-    private int memberNo;
+    private long memberNo;
     private int roleNo;
     private String roleName;
 }

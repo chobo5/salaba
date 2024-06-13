@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Facility {
-    private int facilityNo;
+    private long facilityNo;
     private int count;
     private String name;
 }

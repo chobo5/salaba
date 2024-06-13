@@ -8,8 +8,8 @@ import java.util.List;
 
 @Mapper
 public interface QnaDao {
-    List<Qna> findAllQ();
-    Qna findBy(@Param("questionNo") int questionNo);
+    List<Qna> findAllQna();
+    Qna findBy(@Param("questionNo") long questionNo);
 
     void addAnswer(Qna qna);
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class Rental {
-    private int rentalNo;
+    private long rentalNo;
     private int regionNo;
     private String name;
     private String explanation;

@@ -1,6 +1,7 @@
 package org.admin.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.admin.domain.Qna;
 import org.admin.service.QnaService;
 import org.apache.commons.logging.Log;
@@ -15,9 +16,9 @@ import javax.servlet.http.HttpSession;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/qna")
+@Slf4j
 public class QnaController {
     private final QnaService qnaService;
-    private static final Log log = LogFactory.getLog(QnaController.class);
 
     @GetMapping("/list")
     public RestResult qnaList() {

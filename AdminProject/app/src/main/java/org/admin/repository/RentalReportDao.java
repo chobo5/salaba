@@ -10,10 +10,10 @@ import java.util.List;
 public interface RentalReportDao {
     public List<Report> findAll();
 
-    public Report findBy(@Param("rentalNo") int rentalNo,
-                         @Param("memberNo") int memberNo);
+    public Report findBy(@Param("rentalNo") long rentalNo,
+                         @Param("memberNo") long memberNo);
 
-    public int updateState(@Param("rentalNo") int rentalNo,
-                         @Param("memberNo") int memberNo);
+    public int updateState(@Param("rentalNo") long rentalNo,
+                         @Param("memberNo") long memberNo);
 
 }

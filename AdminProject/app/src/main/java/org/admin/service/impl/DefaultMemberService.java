@@ -22,7 +22,6 @@ public class DefaultMemberService implements MemberService {
     public List<Member> getAll() {
         List<Member> members = memberDao.findAll();
         members.forEach((member) ->  member.setStateStr(Translator.memberState.get(member.getState())));
-
         return members;
     }
 
@@ -44,19 +43,21 @@ public class DefaultMemberService implements MemberService {
     public Member getHostBy(long memberNo) {
         Member member = memberDao.findHostBy(memberNo);
         member.setStateStr(Translator.memberState.get(member.getState()));
-        for (Rental rental : member.getRentals()) {
-            rental.setStateStr(Translator.rentalState.get(rental.getState()));
-        }
+
+        List<Rental> rentals = member.getRentals();
+
+        rentals.forEach((rental -> rental.setStateStr(Translator.rentalState.get(rental.getState()))));
+
         return member;
     }
 
     @Override
-    public int updateWarningCount(int writerNo) {
+    public int updateWarningCount(long writerNo) {
         return memberDao.updateWarningCount(writerNo);
     }
 
     @Override
-    public int updateWarningCountBy(int reportNo) {
+    public int updateWarningCountBy(long reportNo) {
         return memberDao.updateWarningCount(reportNo);
     }
 

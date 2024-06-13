@@ -26,7 +26,7 @@ public class DefaultRentalReportService implements RentalReportService {
     }
 
     @Override
-    public Report get(int rentalNo, int memberNo) {
+    public Report get(long rentalNo, long memberNo) {
         Report report = rentalReportDao.findBy(rentalNo, memberNo);
         report.setTargetType("3");
         report.setStateStr(Translator.dealState.get(report.getState()));
@@ -34,7 +34,7 @@ public class DefaultRentalReportService implements RentalReportService {
     }
 
     @Override
-    public int updateState(int rentalNo, int memberNo) {
+    public int updateState(long rentalNo, long memberNo) {
         return rentalReportDao.updateState(rentalNo, memberNo);
     }
 }

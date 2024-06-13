@@ -1,6 +1,7 @@
 package org.admin.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.admin.domain.Member;
 import org.admin.domain.Photo;
 import org.admin.domain.Rental;
@@ -21,9 +22,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/rental")
+@Slf4j
 public class RentalManageController {
     private final RentalService rentalService;
-    private static final Log log = LogFactory.getLog(RentalManageController.class);
 
     @GetMapping("/list/{menu}")
     public RestResult rentalList(@PathVariable int menu) {

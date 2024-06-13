@@ -11,9 +11,9 @@ public interface RentalDao {
     List<Rental> findAll();
     List<Rental> findApplied();
 
-    Rental findBy(@Param("rentalNo") int rentalNo);
+    Rental findBy(@Param("rentalNo") long rentalNo);
 
-    int updateState(@Param("rentalNo") int rentalNo,
+    int updateState(@Param("rentalNo") long rentalNo,
                     @Param("rentalState") String rentalState);
 
     List<Rental> findAllByName(@Param("keyword") String keyword);

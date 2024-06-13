@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RentalReportService {
     public List<Report> getAll();
-    public Report get(int rentalNo, int memberNo);
+    public Report get(long rentalNo, long memberNo);
 
-    public int updateState(int rentalNo, int memberNo);
+    public int updateState(long rentalNo, long memberNo);
 }

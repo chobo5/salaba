@@ -51,7 +51,6 @@ public class IfLoginArgumentResolver implements HandlerMethodArgumentResolver {
         while (iterator.hasNext()) {
             GrantedAuthority grantedAuthority = iterator.next();
             String role = grantedAuthority.getAuthority();
-//            System.out.println(role);
             loginUserDto.addRole(role);
         }
 
