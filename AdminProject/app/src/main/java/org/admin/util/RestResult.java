@@ -1,4 +1,4 @@
-package org.admin.controller;
+package org.admin.util;
 
 import lombok.Builder;
 import lombok.Data;
