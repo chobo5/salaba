@@ -27,62 +27,56 @@ public class RentalManageController {
     private final RentalService rentalService;
 
     @GetMapping("/list/{menu}")
-    public RestResult rentalList(@PathVariable int menu) {
-        switch (menu) {
-            case 1:
-                return RestResult.builder()
-                        .status(RestResult.SUCCESS)
-                        .data(rentalService.getAll())
-                        .build();
-            case 2:
-                return RestResult.builder()
-                        .status(RestResult.SUCCESS)
-                        .data(rentalService.getAppliedRentals())
-                        .build();
+    public RestResult<?> rentalList(@PathVariable int menu) {
+        try {
+            switch (menu) {
+                case 1:
+                    return RestResult.success(rentalService.getAll());
+                case 2:
+                    return RestResult.success(rentalService.getAppliedRentals());
+                default:
+                    return RestResult.error("유효하지 않은 menu 입니다.");
+            }
+        } catch (Exception e) {
+            return RestResult.error(e.getMessage());
         }
         
-        return RestResult.builder()
-                .status(RestResult.FAILURE)
-                .data("Bad Request")
-                .build();
+
     }
 
     @GetMapping("/view/{menu}/{rentalNo}")
-    public RestResult rentalView(@PathVariable int menu,
+    public RestResult<?> rentalView(@PathVariable int menu,
                                @PathVariable int rentalNo) {
-
-        return RestResult.builder()
-                .status(RestResult.SUCCESS)
-                .data(rentalService.getBy(rentalNo))
-                .build();
+        try {
+            return RestResult.success(rentalService.getBy(rentalNo));
+        } catch (Exception e) {
+            return RestResult.error(e.getMessage());
+        }
     }
 
     @PutMapping("/update")
-    public RestResult rentalUpdate(@RequestBody Rental rental) {
-        
-        rentalService.updateState(rental.getRentalNo(), rental.getState());
-        return RestResult.builder()
-                .status(RestResult.SUCCESS)
-                .build();
+    public RestResult<?> rentalUpdate(@RequestBody Rental rental) {
+        try {
+            rentalService.updateState(rental.getRentalNo(), rental.getState());
+            return RestResult.success();
+        } catch (Exception e) {
+            return RestResult.error(e.getMessage());
+        }
     }
 
     @GetMapping("/search/{keyword}/{filter}")
-    public RestResult searchRental(@PathVariable String keyword,
+    public RestResult<?> searchRental(@PathVariable String keyword,
                                @PathVariable String filter) {
-        
-        if (filter.equals("0")) {
-            // 숙소명으로 검색
-            return RestResult.builder()
-                    .status(RestResult.SUCCESS)
-                    .data(rentalService.getAllByName(keyword))
-                    .build();
-        } else {
-            // 호스트명로 검색
-            return RestResult.builder()
-                    .status(RestResult.SUCCESS)
-                    .data(rentalService.getAllByHostName(keyword))
-                    .build();
-
+        try {
+            if (filter.equals("0")) {
+                // 숙소명으로 검색
+                return RestResult.success(rentalService.getAllByName(keyword));
+            } else {
+                // 호스트명로 검색
+                return RestResult.success(rentalService.getAllByHostName(keyword));
+            }
+        } catch (Exception e) {
+            return RestResult.error(e.getMessage());
         }
     }
 }

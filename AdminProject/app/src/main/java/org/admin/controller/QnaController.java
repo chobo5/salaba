@@ -21,26 +21,30 @@ public class QnaController {
     private final QnaService qnaService;
 
     @GetMapping("/list")
-    public RestResult qnaList() {
-        return RestResult.builder()
-                .status(RestResult.SUCCESS)
-                .data(qnaService.getAllQ())
-                .build();
+    public RestResult<?> qnaList() {
+        try {
+            return RestResult.success(qnaService.getAllQna());
+        } catch (Exception e) {
+            return RestResult.error(e.getMessage());
+        }
     }
 
     @GetMapping("/view/{qnaNo}")
-    public RestResult qnaView(@PathVariable int qnaNo) {
-        return RestResult.builder()
-                .status(RestResult.SUCCESS)
-                .data(qnaService.getBy(qnaNo))
-                .build();
+    public RestResult<?> qnaView(@PathVariable int qnaNo) {
+        try {
+            return RestResult.success(qnaService.getBy(qnaNo));
+        } catch (Exception e) {
+            return RestResult.error(e.getMessage());
+        }
     }
 
     @PostMapping("/update")
-    public RestResult addAnswer(@RequestBody Qna qna) {
-        qnaService.addAnswer(qna);
-        return RestResult.builder()
-                .status(RestResult.SUCCESS)
-                .build();
+    public RestResult<?> addAnswer(@RequestBody Qna qna) {
+        try {
+            qnaService.addAnswer(qna);
+            return RestResult.success();
+        } catch (Exception e) {
+            return RestResult.error(e.getMessage());
+        }
     }
 }

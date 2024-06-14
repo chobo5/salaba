@@ -13,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -26,72 +27,51 @@ public class ReportManageController {
     private final RentalService rentalService;
 
     @GetMapping("/list/{menu}")
-    public RestResult reportList(@PathVariable("menu") int menu) {
+    public RestResult<?> reportList(@PathVariable("menu") int menu) {
         log.debug("관리자 - report/list");
-        switch (menu) {
-            case 1:
-                return RestResult.builder()
-                        .status(RestResult.SUCCESS)
-                        .data(rentalReportService.getAll())
-                        .build();
-            case 2:
-                return RestResult.builder()
-                        .status(RestResult.SUCCESS)
-                        .data(textReportService.getAllBy(ReportType.BOARD.getValue()))
-                        .build();
-            case 3:
-                // 댓글과 답글리스트를 합쳐서 model에 담는다.
-                List<Report> comments = textReportService.getAllBy(ReportType.COMMENT.getValue());
-                List<Report> replies = textReportService.getAllBy(ReportType.REPLY.getValue());
-                comments.addAll(replies);
-                return RestResult.builder()
-                        .status(RestResult.SUCCESS)
-                        .data(comments)
-                        .build();
+        try {
+            switch (menu) {
+                case 1:
+                    return RestResult.success(rentalReportService.getAll());
+                case 2:
+                    return RestResult.success(textReportService.getAllBy(ReportType.BOARD.getValue()));
+                case 3:
+                    // 댓글과 답글리스트를 합쳐서 model에 담는다.
+                    List<Report> comments = textReportService.getAllBy(ReportType.COMMENT.getValue());
+                    List<Report> replies = textReportService.getAllBy(ReportType.REPLY.getValue());
+                    comments.addAll(replies);
+                    return RestResult.success(comments);
+                default:
+                    return RestResult.error("유효하지 않은 menu 입니다.");
+            }
+        } catch (Exception e) {
+            return RestResult.error(e.getMessage());
         }
-        return RestResult.builder()
-                .status(RestResult.FAILURE)
-                .error("No Content")
-                .build();
+
     }
 
 
     @GetMapping("/view/{targetNo}/{type}/{mno}")
-    public RestResult textReportView(@PathVariable int targetNo,
-                                   @PathVariable String type,
-                                   @PathVariable int mno) {
-
-        if (type.equals("0")) {
-            return RestResult.builder()
-                    .status(RestResult.SUCCESS)
-                    .data(textReportService.getBy(type, targetNo, mno))
-                    .build();
+    public RestResult<?> textReportView(@PathVariable int targetNo,
+                                     @PathVariable String type,
+                                     @PathVariable int mno) {
+        try {
+            return RestResult.success(textReportService.getBy(type, targetNo, mno));
+        } catch (Exception e) {
+            return RestResult.error(e.getMessage());
         }
-        if (type.equals("1") || type.equals("2")) {
-            return RestResult.builder()
-                    .status(RestResult.SUCCESS)
-                    .data(textReportService.getBy(type, targetNo, mno))
-                    .build();
-        }
-        return RestResult.builder()
-                .status(RestResult.FAILURE)
-                .error("Bad Request")
-                .build();
     }
 
     @GetMapping("/view/{rentalNo}/{memberNo}")
-    public RestResult rentalReportView(@PathVariable int rentalNo,
-                                   @PathVariable int memberNo) {
+    public RestResult<?> rentalReportView(@PathVariable int rentalNo,
+                                       @PathVariable int memberNo) {
 
-        return RestResult.builder()
-                .status(RestResult.SUCCESS)
-                .data(rentalReportService.get(rentalNo, memberNo))
-                .build();
+        return RestResult.success(rentalReportService.get(rentalNo, memberNo));
     }
 
     @Transactional
     @PutMapping("/update/{result}/{reportType}/{writerNo}")
-    public RestResult updateReport(@PathVariable String result, // 0-무시, 1-영구정지, 2-경고조치
+    public RestResult<?> updateReport(@PathVariable String result, // 0-무시, 1-영구정지, 2-경고조치
                                    @PathVariable String reportType,
                                    @PathVariable int writerNo,
                                    @RequestBody Report report) {
@@ -105,9 +85,7 @@ public class ReportManageController {
                 memberService.updateWarningCountBy(report.getReportNo());
                 //신고건(게시물 or 댓글 or 답글)의 결과 처리
                 textReportService.updateBoardState(report, result);
-                return RestResult.builder()
-                        .status(RestResult.SUCCESS)
-                        .build();
+                return RestResult.success();
                 //숙소 신고
             } else {
                 //신고에 대한 상태를 완료로 변경
@@ -116,15 +94,10 @@ public class ReportManageController {
                 memberService.updateWarningCount(writerNo);
                 //신고건(숙소)의 결과 처리
                 rentalService.updateState(report.getTargetNo(), reportType);
-                return RestResult.builder()
-                        .status(RestResult.SUCCESS)
-                        .build();
+                return RestResult.success();
             }
         } catch (Exception e) {
-            return RestResult.builder()
-                    .status(RestResult.FAILURE)
-                    .error(e.getMessage())
-                    .build();
+            return RestResult.error(e.getMessage());
         }
 
     }

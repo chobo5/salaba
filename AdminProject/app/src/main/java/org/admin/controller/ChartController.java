@@ -14,43 +14,47 @@ public class ChartController {
 
     private final ChartService chartService;
     @GetMapping("/boardCount")
-    public RestResult boardCountInMonth() {
-        return RestResult.builder()
-                .status(RestResult.SUCCESS)
-                .data(chartService.getBoardCountInMonth())
-                .build();
-
+    public RestResult<?> boardCountInMonth() {
+        try {
+            return RestResult.success(chartService.getBoardCountInMonth());
+        } catch (RuntimeException e) {
+            return RestResult.error(e.getMessage());
+        }
     }
 
     @GetMapping("/joinCount")
-    public RestResult joinCountInMonth() {
-        return RestResult.builder()
-                .status(RestResult.SUCCESS)
-                .data(chartService.getJoinCountInMonth())
-                .build();
+    public RestResult<?> joinCountInMonth() {
+        try {
+            return RestResult.success(chartService.getJoinCountInMonth());
+        } catch (RuntimeException e) {
+            return RestResult.error(e.getMessage());
+        }
     }
 
     @GetMapping("/gradeCount")
-    public RestResult userCountByGrade() {
-        return RestResult.builder()
-                .status(RestResult.SUCCESS)
-                .data(chartService.getUserCountByGrade())
-                .build();
+    public RestResult<?> userCountByGrade() {
+        try {
+            return RestResult.success(chartService.getUserCountByGrade());
+        } catch (RuntimeException e) {
+            return RestResult.error(e.getMessage());
+        }
     }
 
     @GetMapping("/rentalCount")
-    public RestResult rentalCountByRegion() {
-        return RestResult.builder()
-                .status(RestResult.SUCCESS)
-                .data(chartService.getRentalCountByRegion())
-                .build();
+    public RestResult<?> rentalCountByRegion() {
+        try {
+            return RestResult.success(chartService.getRentalCountByRegion());
+        } catch (RuntimeException e) {
+            return RestResult.error(e.getMessage());
+        }
     }
 
     @GetMapping("/unprocessed")
-    public RestResult unprocessedWorks() {
-        return RestResult.builder()
-                .status(RestResult.SUCCESS)
-                .data(chartService.getUnprocessedWorks())
-                .build();
+    public RestResult<?> unprocessedWorks() {
+        try {
+            return RestResult.success(chartService.getUnprocessedWorks());
+        } catch (RuntimeException e) {
+            return RestResult.error(e.getMessage());
+        }
     }
 }

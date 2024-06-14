@@ -35,9 +35,9 @@ public class AuthController {
     private final RefreshTokenService refreshTokenService;
     private final PasswordEncoder passwordEncoder;
     @PostMapping("/signup")
-    public ResponseEntity signup(@RequestBody @Valid MemberSignupDto memberSignupDto, BindingResult bindingResult) {
+    public RestResult<?> signup(@RequestBody @Valid MemberSignupDto memberSignupDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) { //값 검증 오류객체가 있다면
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return RestResult.error(HttpStatus.BAD_REQUEST);
         }
 
         Member newMember = Member.builder()
@@ -56,20 +56,20 @@ public class AuthController {
                         .regdate(newMember.getJoinDate())
                         .build();
 
-        return new ResponseEntity<>(memberSignupResponseDto, HttpStatus.CREATED);
+        return RestResult.success(memberSignupResponseDto);
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid MemberLoginDto loginDto, BindingResult bindingResult) {
+    public RestResult<?> login(@RequestBody @Valid MemberLoginDto loginDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return RestResult.error(HttpStatus.BAD_REQUEST);
         }
         // email이 없을 경우 Exception이 발생한다. Global Exception에 대한 처리가 필요하다.
         Member member = memberService.getByEmail(loginDto.getEmail());
 
         //해당 유저가 없거나, 비밀번호가 틀리거나 roleNo가 1 or 2가 아닐때
         if (member == null || !passwordEncoder.matches(loginDto.getPassword(), member.getPassword())) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return RestResult.error(HttpStatus.UNAUTHORIZED);
         }
 
 
@@ -91,18 +91,18 @@ public class AuthController {
                 .memberNo(member.getMemberNo())
                 .name(member.getName())
                 .build();
-        return new ResponseEntity(loginResponse, HttpStatus.OK);
+        return RestResult.success(loginResponse);
     }
 
     @DeleteMapping("/logout")
-    public ResponseEntity logout(@RequestBody RefreshTokenDto refreshTokenDto) {
+    public RestResult<?> logout(@RequestBody RefreshTokenDto refreshTokenDto) {
         refreshTokenService.deleteRefreshToken(refreshTokenDto.getRefreshToken());
         // token repository에서 refresh Token에 해당하는 값을 삭제한다.
-        return new ResponseEntity<>(HttpStatus.OK);
+        return RestResult.success();
     }
 
     @PostMapping("/refreshToken")
-    public ResponseEntity requestRefresh(@RequestBody RefreshTokenDto refreshTokenDto) {
+    public RestResult<?> requestRefresh(@RequestBody RefreshTokenDto refreshTokenDto) {
         RefreshToken refreshToken = refreshTokenService.findRefreshToken(refreshTokenDto.getRefreshToken());
         Claims claims = jwtTokenizer.parseRefreshToken(refreshToken.getValue());
         Long memberNo = Long.valueOf((Integer) claims.get("userId"));
@@ -120,7 +120,7 @@ public class AuthController {
                 .memberNo(member.getMemberNo())
                 .name(member.getName())
                 .build();
-        return new ResponseEntity<>(loginResponse, HttpStatus.OK);
+        return RestResult.success(loginResponse);
     }
 
 
