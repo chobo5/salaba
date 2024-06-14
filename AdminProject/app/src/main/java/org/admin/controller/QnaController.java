@@ -22,29 +22,17 @@ public class QnaController {
 
     @GetMapping("/list")
     public RestResult<?> qnaList() {
-        try {
-            return RestResult.success(qnaService.getAllQna());
-        } catch (Exception e) {
-            return RestResult.error(e.getMessage());
-        }
+        return RestResult.success(qnaService.getAllQna());
     }
 
     @GetMapping("/view/{qnaNo}")
     public RestResult<?> qnaView(@PathVariable int qnaNo) {
-        try {
-            return RestResult.success(qnaService.getBy(qnaNo));
-        } catch (Exception e) {
-            return RestResult.error(e.getMessage());
-        }
+        return RestResult.success(qnaService.getBy(qnaNo));
     }
 
     @PostMapping("/update")
     public RestResult<?> addAnswer(@RequestBody Qna qna) {
-        try {
-            qnaService.addAnswer(qna);
-            return RestResult.success();
-        } catch (Exception e) {
-            return RestResult.error(e.getMessage());
-        }
+        qnaService.addAnswer(qna);
+        return RestResult.success();
     }
 }

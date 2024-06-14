@@ -13,48 +13,29 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChartController {
 
     private final ChartService chartService;
+
     @GetMapping("/boardCount")
     public RestResult<?> boardCountInMonth() {
-        try {
-            return RestResult.success(chartService.getBoardCountInMonth());
-        } catch (RuntimeException e) {
-            return RestResult.error(e.getMessage());
-        }
+        return RestResult.success(chartService.getBoardCountInMonth());
     }
 
     @GetMapping("/joinCount")
     public RestResult<?> joinCountInMonth() {
-        try {
-            return RestResult.success(chartService.getJoinCountInMonth());
-        } catch (RuntimeException e) {
-            return RestResult.error(e.getMessage());
-        }
+        return RestResult.success(chartService.getJoinCountInMonth());
     }
 
     @GetMapping("/gradeCount")
     public RestResult<?> userCountByGrade() {
-        try {
-            return RestResult.success(chartService.getUserCountByGrade());
-        } catch (RuntimeException e) {
-            return RestResult.error(e.getMessage());
-        }
+        return RestResult.success(chartService.getUserCountByGrade());
     }
 
     @GetMapping("/rentalCount")
     public RestResult<?> rentalCountByRegion() {
-        try {
-            return RestResult.success(chartService.getRentalCountByRegion());
-        } catch (RuntimeException e) {
-            return RestResult.error(e.getMessage());
-        }
+        return RestResult.success(chartService.getRentalCountByRegion());
     }
 
     @GetMapping("/unprocessed")
     public RestResult<?> unprocessedWorks() {
-        try {
-            return RestResult.success(chartService.getUnprocessedWorks());
-        } catch (RuntimeException e) {
-            return RestResult.error(e.getMessage());
-        }
+        return RestResult.success(chartService.getUnprocessedWorks());
     }
 }
