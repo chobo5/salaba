@@ -1,103 +1,45 @@
 package salaba.service;
 
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import salaba.repository.MemberRepository;
+import salaba.vo.Alarm;
 import salaba.vo.Member;
 import salaba.vo.Nation;
 import salaba.vo.board.Board;
 
-@RequiredArgsConstructor
-@Service
-@Slf4j
-public class MemberService {
+public interface MemberService {
 
-  private final MemberRepository memberRepository;
+  int addMember(Member member);
 
-  
-  public int addMember(Member member) {
-    return memberRepository.addMember(member);
-  }
+  Member selectUserInfoForLogin(int no);
 
-  
-  public Member selectUserInfoForLogin(String email, String password) {
-    return memberRepository.selectUserInfoForLogin(email, password);
-  }
+  int updateUserInfo(Member member);
 
-  
-  public Member selectUserInfoForUpdateSession(int memberNo) {
-    return memberRepository.selectUserInfoForUpdateSession(memberNo);
-  }
+  int checkNickname(String nickname);
 
-  
-  public Member selectUserInfoForLogin(int no) {
-    return memberRepository.selectMemberInfo(no);
-  }
+  int checkEmail(String email);
 
-  
-  public List<Nation> getNation() {
-    return memberRepository.getNation();
-  }
+  List<Nation> getNation();
 
-  
-  public int updateUserInfo(Member member) {
-    return memberRepository.updateUserInfo(member);
-  }
+  int updateMemberWithdrawal(int memberNo);
 
-  
-  public int checkNickname(String nickname) {
-    return memberRepository.checkNickname(nickname);
-  }
-////////////////
-  
-  public int checkEmail(String email) {
-    return memberRepository.checkEmail(email);
-  }
+  Member selectUserInfoForLogin(String email, String password);
 
-  
-  public int updateMemberWithdrawal(int memberNo) {
-    return memberRepository.updateMemberWithdrawal(memberNo);
-  }
+  Member selectUserInfoForUpdateSession(int memberNo);
 
-  
-  public Member findEmail(Member member) {
-    return memberRepository.findEmail(member);
-  }
+  Member findEmail(Member member);
 
-  
-  public Member findPassword(Member member) {
-    return memberRepository.findPassword(member);
-  }
+  Member findPassword(Member member);
 
-  
-  public void changePasswordSave(Member member) {
-    memberRepository.changePasswordSave(member);
-  }
+  void changePasswordSave(Member member);
 
-  
-  public int checkPassword(int memberNo, String password) {
-    return memberRepository.checkPassword(memberNo, password);
-  }
-  
-  public void insertPreference(Member member) {
-    memberRepository.insertPreference(member);
-  }
+  int checkPassword(int memberNo, String password);
 
-  
-  public void deletePreference(int memberNo) {
-    memberRepository.deletePreference(memberNo);
-  }
+  void insertPreference(Member member);
 
-  
-  public String boardStateCheck(Board board){ // 알람 업데이트(알람을 읽었을 경우 업데이트)
-    return memberRepository.boardStateCheck(board);
-  }
+  void deletePreference(int memberNo);
 
-  
-  public Member selectEmailForGoogle(String email) {
-    return memberRepository.selectEmailForGoogle(email);
-  }
+  String boardStateCheck(Board board);
+
+  Member selectEmailForGoogle(String email);
+
 }
-
