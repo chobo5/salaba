@@ -27,7 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
 import salaba.service.AlarmService;
 import salaba.service.BoardService;
 import salaba.service.CommentService;
-import salaba.service.MemberService;
 import salaba.service.ReplyService;
 import salaba.service.StorageService;
 import salaba.util.Translator;
